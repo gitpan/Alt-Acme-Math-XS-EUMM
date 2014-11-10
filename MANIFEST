@@ -1,0 +1,10 @@
+Changes
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+lib/Acme/Math/XS.pm
+lib/Acme/Math/XS.pod
+lib/Acme/Math/XS/Inline.pm
+t/test.t
