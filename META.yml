@@ -17,6 +17,7 @@ no_index:
   directory:
     - t
     - inc
+    - lib/Acme
 requires:
   perl: '5.008001'
-version: v0.0.1
+version: v0.0.2

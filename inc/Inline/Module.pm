@@ -1,6 +1,10 @@
+# TODO:
+# - Move Inline::Module::MakeMaker code into here
+#   - Figure out import/exporter stuff
+
 use strict; use warnings;
 package Inline::Module;
-our $VERSION = '0.11';
+our $VERSION = '0.13';
 
 use Config;
 use File::Path;
