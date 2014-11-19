@@ -1,4 +1,14 @@
 ---
+version: 0.0.3
+date:    Wed Nov 19 06:32:20 UTC 2014
+changes:
+- Inline::Module::MakeMaker changed to Inline::Module in Makefile.PL
+---
+version: 0.0.2
+date:    Wed Nov 19 06:32:02 UTC 2014
+changes:
+- Second Release
+---
 version: 0.0.1
 date:    Wed Nov 19 04:55:09 UTC 2014
 changes:
