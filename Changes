@@ -1,4 +1,9 @@
 ---
+version: 0.0.5
+date:    Sat Dec  6 14:16:37 PST 2014
+changes:
+- Release using new autostub technique
+---
 version: 0.0.4
 date:    Sat Nov 22 05:06:27 UTC 2014
 changes:
