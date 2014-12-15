@@ -1,13 +1,13 @@
 use strict; use warnings;
 package Inline::Module;
-our $VERSION = '0.17';
+our $VERSION = '0.21';
 
 use Config();
 use File::Path();
 use File::Find();
 use Carp 'croak';
 
-use XXX;
+# use XXX;
 
 my $inline_build_path = './blib/Inline';
 
@@ -16,11 +16,13 @@ sub new {
     return bless {@_}, $class;
 }
 
+use constant DEBUG_ON => $ENV{PERL_INLINE_MODULE_DEBUG} ? 1 : 0;
 sub DEBUG {
-    return unless $ENV{PERL_INLINE_MODULE_DEBUG};
-    print ">>>>>> ";
-    printf @_;
-    print "\n";
+    if (DEBUG_ON) {
+        print ">>>>>> ";
+        printf @_;
+        print "\n";
+    }
 }
 
 #------------------------------------------------------------------------------
@@ -32,11 +34,11 @@ sub DEBUG {
 #------------------------------------------------------------------------------
 sub import {
     my $class = shift;
-    DEBUG "Inline::Module::import(@_)";
+    DEBUG_ON && DEBUG "Inline::Module::import(@_)";
 
     my ($stub_module, $program) = caller;
 
-    if ($program eq 'Makefile.PL') {
+    if ($program eq 'Makefile.PL' && not -e 'INLINE.h') {
         no warnings 'once';
         *MY::postamble = \&postamble;
         return;
@@ -49,9 +51,9 @@ sub import {
         if $cmd eq 'makestub';
     return $class->handle_autostub(@_)
         if $cmd eq 'autostub';
-    return $class->handle_distdir(@_)
+    return $class->handle_distdir(@ARGV)
         if $cmd eq 'distdir';
-    return $class->handle_fixblib(@_)
+    return $class->handle_fixblib()
         if $cmd eq 'fixblib';
 
     if ($cmd =~ /^v[0-9]$/) {
@@ -86,6 +88,8 @@ Make sure you have the latest version of Inline::Module installed, then run:
 sub importer {
     my ($class, $stub_module) = @_;
     return sub {
+        my ($class, $lang) = @_;
+        return unless defined $lang;
         require File::Path;
         File::Path::mkpath($inline_build_path)
             unless -d $inline_build_path;
@@ -93,11 +97,12 @@ sub importer {
         Inline->import(
             Config =>
             directory => $inline_build_path,
-            using => 'Inline::C::Parser::RegExp',
+            ($lang eq 'C') ? (using => 'Inline::C::Parser::RecDescent') : (),
             name => $stub_module,
+            CLEAN_AFTER_BUILD => 0,
         );
-        my $class = shift;
-        DEBUG "Inline::Module proxy to Inline::%s", @_;
+        shift(@_);
+        DEBUG_ON && DEBUG "Inline::Module::importer proxy to Inline::%s", @_;
         Inline->import_heavy(@_);
     };
 }
@@ -151,14 +156,23 @@ sub default_args {
 
 sub included_modules {
     my ($self) = @_;
-
-    return (
+    my $ilsm = $self->{ilsm};
+    my @include = (
         'Inline',
         'Inline::denter',
-        @{$self->{ilsm}},
-        'Inline::C::Parser::RegExp',
         'Inline::Module',
+        @$ilsm,
     );
+    if (grep /:C$/, @$ilsm) {
+        push @include,
+            'Inline::C::Parser::RegExp';
+    }
+    if (grep /:CPP$/, @$ilsm) {
+        push @include,
+            'Inline::CPP::Parser::RecDescent',
+            'Parse::RecDescent';
+    }
+    return @include;
 }
 
 #------------------------------------------------------------------------------
@@ -185,7 +199,6 @@ sub handle_makestub {
     }
     $dest ||= 'lib';
 
-
     for my $module (@modules) {
         my $code = $class->proxy_module($module);
         my $path = $class->write_module($dest, $module, $code);
@@ -197,6 +210,15 @@ sub handle_makestub {
 
 sub handle_autostub {
     my ($class, @args) = @_;
+
+    # Don't mess with Perl tools, while using PERL5OPT and autostub:
+    return unless
+        $0 eq '-e' or
+        defined $ENV{_} and $ENV{_} =~ m!/prove[^/]*$!;
+    # Don't autostub in the distdir:
+    return if -e './inc/Inline/Module.pm';
+
+    DEBUG_ON && DEBUG "Inline::Module::autostub(@_)";
 
     require lib;
     lib->import('lib');
@@ -245,8 +267,7 @@ sub handle_autostub {
 }
 
 sub handle_distdir {
-    my ($class) = @_;
-    my ($distdir, @args) = @ARGV;
+    my ($class, $distdir, @args) = @_;
     my (@inlined_modules, @included_modules);
 
     while (@args and ($_ = shift(@args)) ne '--') {
@@ -256,15 +277,25 @@ sub handle_distdir {
         push @included_modules, $_;
     }
 
+    my @manifest; # files created under distdir
     for my $module (@inlined_modules) {
         my $code = $class->dyna_module($module);
         $class->write_module("$distdir/lib", $module, $code);
         $code = $class->proxy_module($module);
         $class->write_module("$distdir/inc", $module, $code);
+        $module =~ s!::!/!g;
+        push @manifest, "lib/$module.pm", "inc/$module.pm";
     }
     for my $module (@included_modules) {
-        $class->write_included_module("$distdir/inc", $module);
+        my $code = $class->read_local_module($module);
+        $class->write_module("$distdir/inc", $module, $code);
+        $module =~ s!::!/!g;
+        push @manifest, "inc/$module.pm";
     }
+
+    $class->add_to_manifest($distdir, @manifest);
+
+    return @manifest; # return a list of the files added
 }
 
 sub handle_fixblib {
@@ -286,12 +317,6 @@ sub handle_fixblib {
         },
         no_chdir => 1,
     }, $inline_build_path);
-}
-
-sub write_included_module {
-    my ($class, $dest, $module) = @_;
-    my $code = $class->read_local_module($module);
-    $class->write_module($dest, $module, $code);
 }
 
 sub read_local_module {
@@ -364,6 +389,17 @@ sub write_module {
     close OUT;
 
     return $filepath;
+}
+
+sub add_to_manifest {
+    my ($class, $distdir, @files) = @_;
+    my $manifest = "$distdir/MANIFEST";
+    open my $out, '>>', $manifest
+        or die "Can't open '$manifest' for append:\n$!";
+    for my $file (@files) {
+        print $out "$file\n";
+    }
+    close $out;
 }
 
 1;

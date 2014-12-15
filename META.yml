@@ -1,13 +1,13 @@
 ---
 abstract: 'Math is HARD (faster)'
 author:
-  - 'Ingy döt Net <ingy@cpan.org>'
+  - 'Ingy dÃ¶t Net <ingy@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: '0'
 configure_requires:
   ExtUtils::MakeMaker: '0'
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.132830'
+generated_by: 'ExtUtils::MakeMaker version 7.04, CPAN::Meta::Converter version 2.132830'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -20,4 +20,4 @@ no_index:
     - lib/Acme
 requires:
   perl: '5.008001'
-version: v0.0.5
+version: v0.0.6
