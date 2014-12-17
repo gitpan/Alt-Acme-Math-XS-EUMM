@@ -1,4 +1,9 @@
 ---
+version: 0.0.7
+date:    Tue Dec 16 23:37:39 EST 2014
+changes:
+- Rebuild with new Inline::Module to avoid test failures
+---
 version: 0.0.6
 date:    Sun Dec 14 22:20:03 PST 2014
 changes:
