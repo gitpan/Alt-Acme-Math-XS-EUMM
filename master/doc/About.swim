@@ -1,0 +1,42 @@
+= About this Repository
+
+This repository has several branches, that support several different (but
+similar) CPAN distributions:
+
+- `xs`
+
+  [Acme::Math::XS] is a plain old XS version.
+
+
+- `eumm`
+
+  [Alt::Acme::Math::XS::EUMM] is a version written using [Inline::Module] and
+  [Inline::C] that uses the plain old [ExtUtils::MakeMaker] module framework.
+
+- `dzil`
+
+  [Alt::Acme::Math::XS::DistZilla] is a version that uses the [Dist::Zilla]
+  module framework.
+
+- `m-b`
+
+  [Alt::Acme::Math::XS::ModuleBuild] is a version that uses the [Module::Build]
+  module framework.
+
+- `m-i`
+
+  [Alt::Acme::Math::XS::ModuleInstall] is a version that uses the
+  [Module::Install] module framework.
+
+- `zild`
+
+  [Alt::Acme::Math::XS::ZillaDist] is a version that uses the [ZillaDist]
+  module framework.
+
+- `cpp`
+
+  [Alt::Acme::Math::XS::CPP] is a version written using [Inline::Module] and
+  [Inline::CPP] (C++) (and [ExtUtils::MakeMaker]).
+
+The `master` branch just has the code, doc and tests that should be shared by
+every other branch.

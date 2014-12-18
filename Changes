@@ -1,4 +1,9 @@
 ---
+version: 0.0.8
+date:    Wed Dec 17 23:25:55 PST 2014
+changes:
+- Release with Inline-Module-0.26
+---
 version: 0.0.7
 date:    Tue Dec 16 23:37:39 EST 2014
 changes:
