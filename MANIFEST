@@ -3,12 +3,8 @@ lib/Acme/Math/XS.pm
 lib/Acme/Math/XS.pod
 lib/Acme/Math/XS/Inline.pm
 lib/Alt/Acme/Math/XS/EUMM.pm
-Makefile
 Makefile.PL
 MANIFEST			This list of files
-MANIFEST.SKIP
-MYMETA.json
-MYMETA.yml
 README
 t/test.t
 META.yml                                 Module YAML meta-data (added by MakeMaker)

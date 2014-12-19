@@ -1,4 +1,9 @@
 ---
+version: 0.0.11
+date:    Thu Dec 18 18:59:44 PST 2014
+changes:
+- Fix MANIFEST.SKIP
+---
 version: 0.0.10
 date:    Thu Dec 18 18:08:58 PST 2014
 changes:

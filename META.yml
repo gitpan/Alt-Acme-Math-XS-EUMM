@@ -20,4 +20,4 @@ no_index:
     - lib/Acme
 requires:
   perl: '5.008001'
-version: v0.0.10
+version: v0.0.11
