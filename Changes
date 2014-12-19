@@ -1,4 +1,11 @@
 ---
+version: 0.0.10
+date:    Thu Dec 18 18:08:58 PST 2014
+changes:
+- Build to work on MSWin32
+- Remove master/ and .travis.yml from dist
+- Update pod
+---
 version: 0.0.9
 date:    Wed Dec 17 23:49:19 PST 2014
 changes:

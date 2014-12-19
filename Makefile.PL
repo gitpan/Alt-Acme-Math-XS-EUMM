@@ -1,7 +1,4 @@
-use strict;
-use warnings;
-
-use 5.008001;
+use strict; use warnings; use utf8; use 5.008001;
 
 use lib 'inc';
 use ExtUtils::MakeMaker;
@@ -9,7 +6,7 @@ use Inline::Module;
 
 WriteMakefile(
   NAME => 'Alt::Acme::Math::XS::EUMM',
-  VERSION => '0.0.9',
+  VERSION => '0.0.10',
   ABSTRACT => 'Math is HARD (faster!)',
   AUTHOR => 'Ingy döt Net <ingy@cpan.org>',
   LICENSE => 'perl',
