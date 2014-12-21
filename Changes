@@ -1,4 +1,9 @@
 ---
+version: 0.0.12
+date:    Sun Dec 21 00:36:05 EST 2014
+changes:
+- Add dev prereqs to Makefile.PL
+---
 version: 0.0.11
 date:    Thu Dec 18 18:59:44 PST 2014
 changes:

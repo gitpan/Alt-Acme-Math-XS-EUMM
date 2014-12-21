@@ -385,4 +385,3 @@ sub M07_invalid_scalar_value {
 }
 
 1;
-__END__

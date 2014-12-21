@@ -4,7 +4,7 @@
       "Ingy döt Net <ingy@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 7.04, CPAN::Meta::Converter version 2.132830",
+   "generated_by" : "ExtUtils::MakeMaker version 7.04, CPAN::Meta::Converter version 2.143240",
    "license" : [
       "perl_5"
    ],
@@ -16,6 +16,7 @@
    "no_index" : {
       "directory" : [
          "t",
+         "inc",
          "inc",
          "lib/Acme"
       ]
@@ -31,6 +32,12 @@
             "ExtUtils::MakeMaker" : "0"
          }
       },
+      "develop" : {
+         "requires" : {
+            "Inline::CPP" : "0.69",
+            "Inline::Module" : "0.27"
+         }
+      },
       "runtime" : {
          "requires" : {
             "perl" : "5.008001"
@@ -38,5 +45,5 @@
       }
    },
    "release_status" : "stable",
-   "version" : "v0.0.11"
+   "version" : "v0.0.12"
 }
