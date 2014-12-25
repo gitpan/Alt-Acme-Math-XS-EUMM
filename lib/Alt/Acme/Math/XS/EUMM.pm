@@ -1,2 +1,2 @@
 package Alt::Acme::Math::XS::EUMM;
-our $VERSION = '0.0.13';
+our $VERSION = '0.0.14';
