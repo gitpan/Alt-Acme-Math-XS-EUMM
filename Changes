@@ -1,4 +1,10 @@
 ---
+version: 0.0.15
+date:    Sun Dec 28 18:06:33 PST 2014
+changes:
+- $Acme::Math::XS::VERSION = -1;
+- Trying Alt VERSION = -1 scheme.
+---
 version: 0.0.14
 date:    Wed Dec 24 23:34:38 PST 2014
 changes:

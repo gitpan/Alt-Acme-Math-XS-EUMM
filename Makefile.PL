@@ -6,7 +6,7 @@ use Inline::Module;
 
 WriteMakefile(
   NAME => 'Alt::Acme::Math::XS::EUMM',
-  VERSION => '0.0.14',
+  VERSION => '0.0.15',
   ABSTRACT => 'Math is HARD (faster!)',
   AUTHOR => 'Ingy döt Net <ingy@cpan.org>',
   LICENSE => 'perl',
@@ -24,7 +24,7 @@ WriteMakefile(
         develop => {
           requires => {
             'Inline::C' => '0.68',
-            'Inline::Module' => '0.30',
+            'Inline::Module' => '0.31',
         },
       },
     },

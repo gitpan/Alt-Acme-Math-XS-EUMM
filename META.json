@@ -35,7 +35,7 @@
       "develop" : {
          "requires" : {
             "Inline::C" : "0.68",
-            "Inline::Module" : "0.30"
+            "Inline::Module" : "0.31"
          }
       },
       "runtime" : {
@@ -45,5 +45,5 @@
       }
    },
    "release_status" : "stable",
-   "version" : "v0.0.14"
+   "version" : "v0.0.15"
 }
