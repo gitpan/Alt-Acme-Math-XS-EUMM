@@ -4,9 +4,10 @@ use lib 'inc';
 use ExtUtils::MakeMaker;
 use Inline::Module;
 
+my $alt = $ENV{PERL_ALT_INSTALL} || '';
 WriteMakefile(
   NAME => 'Alt::Acme::Math::XS::EUMM',
-  VERSION => '0.0.15',
+  VERSION => '0.0.16',
   ABSTRACT => 'Math is HARD (faster!)',
   AUTHOR => 'Ingy döt Net <ingy@cpan.org>',
   LICENSE => 'perl',
@@ -35,4 +36,5 @@ WriteMakefile(
       ],
     },
   },
+  DESTDIR => $alt ? $alt eq 'OVERWRITE' ? '' : $alt : 'no-install-alt',
 );
